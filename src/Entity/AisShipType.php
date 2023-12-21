@@ -14,7 +14,7 @@ class AisShipType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: 'id')]
     private ?int $id = null;
 
     #[ORM\Column (name:'aisshiptype')]
@@ -30,6 +30,9 @@ class AisShipType
 
     #[ORM\OneToMany(mappedBy: 'aisShipType', targetEntity: Navire::class)]
     private Collection $navires;
+    
+    #[ORM\ManyToMany(targetEntity: Port::class, mappedBy: 'types')]
+    private Collection $portsCompatibles;
 
     public function __construct()
     {
