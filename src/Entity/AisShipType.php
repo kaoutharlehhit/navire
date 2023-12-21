@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\AisShipTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table (name :'aisshiptype')]
+
 #[ORM\Entity(repositoryClass: AisShipTypeRepository::class)]
+#[ORM\Table(name:'aisshiptype')]
 class AisShipType
 {
     #[ORM\Id]
@@ -24,6 +27,14 @@ class AisShipType
 
     #[ORM\Column(name: 'libelle' , length: 60)]
     private ?string $libelle = null;
+
+    #[ORM\OneToMany(mappedBy: 'aisShipType', targetEntity: Navire::class)]
+    private Collection $navires;
+
+    public function __construct()
+    {
+        $this->navires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -53,4 +64,36 @@ class AisShipType
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Navire>
+     */
+    public function getNavires(): Collection
+    {
+        return $this->navires;
+    }
+
+    public function addNavires(Navire $navires): static
+    {
+        if (!$this->navires->contains($navires)) {
+            $this->navires->add($navires);
+            $navires->setIdaisshiptype($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNavires(Navire $navires): static
+    {
+        if ($this->navires->removeElement($navires)) {
+            // set the owning side to null (unless already changed)
+            if ($navires->getIdaisshiptype() === $this) {
+                $navires->setIdaisshiptype(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    
 }
