@@ -28,7 +28,7 @@ class Navire
     #[ORM\Column(length: 255)]
     private ?string $MMSI = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, name:'indicatifappel')]
     private ?string $indicatifAppel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -46,6 +46,17 @@ class Navire
     #[ORM\ManyToOne(inversedBy: 'navires')]
     #[ORM\JoinColumn(name:'idaisshiptype', referencedColumnName:'id', nullable: false)]
     private ?AisShipType $aisShipType = null;
+    
+    #[ORM\OneToMany(mappedBy: 'navire', targetEntity: Escale::class, orphanRemoval: true)]
+        private Collection $escale;
+
+    #[ORM\ManyToOne(inversedBy: 'navires')]
+    #[ORM\JoinColumn(nullable: false, name:'idpays')]
+    private ?Pays $pavillon = null;
+
+    #[ORM\ManyToOne(inversedBy: 'navires')]
+    #[ORM\JoinColumn(nullable: true, name:'idport')]
+    private ?Port $destinaton = null;
 
     public function getId(): ?int
     {
@@ -156,6 +167,30 @@ class Navire
     public function setIdaisshiptype(?AisShipType $idaisshiptype): static
     {
         $this->aisShipType = $idaisshiptype;
+
+        return $this;
+    }
+
+    public function getPavillon(): ?Pays
+    {
+        return $this->pavillon;
+    }
+
+    public function setPavillon(?Pays $pavillon): static
+    {
+        $this->pavillon = $pavillon;
+
+        return $this;
+    }
+
+    public function getDestinaton(): ?Port
+    {
+        return $this->destinaton;
+    }
+
+    public function setDestinaton(?Port $destinaton): static
+    {
+        $this->destinaton = $destinaton;
 
         return $this;
     }
