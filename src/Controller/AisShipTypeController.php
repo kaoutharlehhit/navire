@@ -16,7 +16,7 @@ class AisShipTypeController extends AbstractController
     public function index(): Response
     {
         return $this->render('ais_ship_type_type/index.html.twig', [
-            'controller_name' => 'AisShipTypeTypeController',
+            'controller_name' => 'AisShipTypeController',
         ]);
     }
     #[Route('/voirtous', name: 'voirtous')]

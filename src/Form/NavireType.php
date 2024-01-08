@@ -5,6 +5,15 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\AisShipType;
+use App\Entity\Pays;
+use App\Entity\Port;
+
 
 class NavireType extends AbstractType {
 
@@ -20,7 +29,7 @@ class NavireType extends AbstractType {
         ->add('imo', IntegerType::class)
         ->add('tirantdeau', NumberType::class, array('scale' => 1, ))
         ->add('aisshiptype', EntityType::class, [
-        'class' => AishShipType::class,
+        'class' => AisShipType::class,
         'choice_label' => 'libelle'
         ])
         ->add('pavillon', EntityType::class, [
